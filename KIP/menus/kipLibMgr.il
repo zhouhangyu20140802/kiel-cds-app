@@ -1,0 +1,6 @@
+;printf("hello world\n")
+lmgrCreateMenu( "kipMainMenu" '( ( "label" "KIP" ) ) )
+lmgrCreateMenuItem( "kipSourceEncryptionMenu" "simple" '(("label" "Source Encrytion") ("callback" ("kipLibMgrCallback"))) )
+lmgrCreateMenuItem( "kipICProject" "toggle" '(("label" "Project")) )
+lmgrAddMenuItems( "kipMainMenu" "LCV" '( "kipSourceEncryptionMenu" "kipICProject" ))
+lmgrAddMenuItems("menuBar" "" '( "kipMainMenu" ))

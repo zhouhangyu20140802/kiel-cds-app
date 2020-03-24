@@ -1,0 +1,4 @@
+kip_path = getShellEnvVar("KIP_PATH")
+printf(kip_path)
+loadi(strcat(kip_path "/menus/load.il"))
+loadi(strcat(kip_path "/scripts/libMgr/load.il"))

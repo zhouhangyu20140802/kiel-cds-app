@@ -1,0 +1,2 @@
+loadi( strcat(kip_path "/scripts/libMgr/kipLibMgrCallback.il") )
+loadi( strcat(kip_path "/scripts/libMgr/kipLibMgrCallback.il") )
