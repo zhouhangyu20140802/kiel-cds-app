@@ -520,14 +520,14 @@
       )
       ("&KIP"
          `(
-             ("Netlist &and Run")
-             ("&Run")
-             ("&Stop")
+             ("Netlist &and Run" ?callback (kipADENetlistRun))
+             ("&Run" ?callback (kipADERun))
+             ("&Stop" ?callback (kipADEStop))
              ("&Netlist" 
                (
-                   ("&Create")
-                   ("&Display")
-                   ("&Recreate")
+                   ("&Create" ?callback (kipADENetlistCreate))
+                   ("&Display" ?callback (kipADENetlistDisplay))
+                   ("&Recreate" ?callback (kipADENetlistRecreate))
                )             
              )
           )     

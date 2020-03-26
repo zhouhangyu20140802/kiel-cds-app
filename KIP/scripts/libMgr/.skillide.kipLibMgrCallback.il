@@ -8,7 +8,6 @@ procedure( kipLibMgrCallback(menuName lib cell view file category)
          "verilog"
          "veriloga"       
        )
-       
 ;Check the right view type       
 ;      prog( (view encryptViewList)
 ;          if( !member( view encryptViewList ) then
@@ -17,9 +16,9 @@ procedure( kipLibMgrCallback(menuName lib cell view file category)
 ;            );end if 
 ;       );end prog
 
-       if( !viewSelected
-           printf("There is no symbol in this cellview. Please create one.")       
-       )
+;       if( !viewSelected
+;           printf("There is no symbol in this cellview. Please create one.")       
+ ;      )
        
        kipCellViewEncrypt( lib cell view )
          

@@ -46,9 +46,14 @@ procedure( kipCellViewEncrypt( lib cell view )
        encryptCellPath = strcat(dbFullLibPath( lib )  "/" cellNewName)
        setShellEnvVar("NETLISTDIR" netlistDir)
        setShellEnvVar("ENCRYPTCELLDIR" encryptCellPath)
-       sh("spectre_encrypt -i $NETLISTDIR/netlist -o $ENCRYPTCELLDIR/netlist_en -all")
+       setShellEnvVar("CELLVIEWNAME" cell) 
+       ;sh("spectre_encrypt -i $NETLISTDIR/netlist -o $ENCRYPTCELLDIR/netlist_en -all")
+       sh("~/scripts/spectre_encrypt -i $NETLISTDIR/netlist -o $ENCRYPTCELLDIR/netlist_en -all -key -g")
        unsetShellEnvVar("NETLISTDIR")
        unsetShellEnvVar("ENCRYPTCELLDIR")
+       unsetShellEnvVar("CELLVIEWNAME")
+       sessionOn = sevSession(hiGetCurrentWindow())
+       sevQuit(sessionOn)
 
 );end if
 );end procedure
