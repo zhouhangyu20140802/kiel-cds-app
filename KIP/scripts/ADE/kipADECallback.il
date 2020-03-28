@@ -1,16 +1,39 @@
 procedure( kipADENetlistRun()
     let( (sessionName)
     sessionName = sevSession(hiGetCurrentWindow())
-    sevNetlistAndRun(sessionName)
+    sevNetlistFile(sessionName 'create)
+    sevRun(sessionName)
     )    
 )
 
 procedure( kipADERun()
- let( (sessionName)
+ let( (sessionName  sessionObj simFileList index)
     sessionName = sevSession(hiGetCurrentWindow())
-    sevRun(sessionName)
-    )  
-)
+    sessionObj = asiGetCurrentSession()
+    simFileList = asiGetModelLibSelectionList(sessionObj)
+    ;print(simFileList)
+    fileNumber = length(simFileList)
+    declare(fileDirArray[fileNumber])
+    foreach( fileDirList simFileList
+        fileDir = car(fileDirList)
+        println(fileDir)
+        fileIndex = int(nindex( fileDir "netlist_en" ))
+        fileDir = substring(fileDir 1 fileIndex-1)
+        println(fileDir)
+        setShellEnvVar("FILEDIR" fileDir)
+        sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
+        sh("~/scripts/spectre_decrypt -i $FILEDIR/netlist_en -o $FILEDIR/netlist_en -key $FILEDIR/kdskey")
+    )
+    sh("spectre_encrypt -i $FILEDIR/netlist_en -o $FILEDIR/netlist_en -all")
+    sevRunEngine(sessionName)
+    ;if(simSessionName then
+    ;sh("rm -rf $FILEDIR/netlist_en")
+    ;sh("mv $FILEDIR/netlist_en.bak $FILEDIR/netlist_en" )
+    
+    ;);if
+    
+    ) ;let 
+);procedure
 
 procedure( kipADEStop()
  let( (sessionName)
@@ -20,7 +43,7 @@ procedure( kipADEStop()
 )
 
 procedure( kipADENetlistCreate()
- let( ( sessionName )
+ let( ( sessionName ) 
     sessionName = sevSession(hiGetCurrentWindow())
     sevNetlistFile(sessionName 'create)
     )  
