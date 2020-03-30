@@ -40,7 +40,7 @@ procedure( kipCellViewEncrypt( lib cell view )
        schWindowID = deNewCellView( lib cellNewName "schematic" "schematic" list(list(0 0) list(500 600)))      
        cellCopyedSchID = dbOpenCellViewByType(lib cellNewName "schematic")
        insDbObj = dbCreateInstByMasterName( cellCopyedSchID lib cell "symbol" nil list(0,0) "R0") 
-       schHiCheckAndSave()
+       schHiSaveCellView()
        ;hiFormClose(hiGetCurrentForm())
        hiCloseWindow(schWindowID)
 ;Generate Netlist       
