@@ -1,0 +1,3 @@
+;sevStartSession()
+load( strcat(getShellEnvVar("KIP_PATH") "/menus/kipADE.menu") )
+

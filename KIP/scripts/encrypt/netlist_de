@@ -1,0 +1,15 @@
+
+// Library name: test
+// Cell name: EF_PA_istg
+// View name: schematic
+Q28 (RFOUT RFIN net24 0) npnStd area=25
+Q37 (net6 net8 net22 0) npnStd area=5
+Q38 (vcc! net6 net18 0) npnStd area=10
+I8 (vcc! net6) isource dc=2m type=dc
+R34 (0 net24) resistor r=20
+R60 (vcc! RFOUT) resistor r=50
+R51 (0 net22) resistor r=200
+R33 (net18 net20) resistor r=200
+R53 (net8 net18) resistor r=1K
+R52 (0 net18) resistor r=1K
+L6 (net20 RFIN) inductor l=13n
