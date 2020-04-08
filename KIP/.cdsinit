@@ -263,17 +263,17 @@ let( (bindKeyFileList file path saveSkillPath)
 printf("END OF USER CUSTOMIZATION\n")
 ;
 ;END OF USER CUSTOMIZATION
-kip_path = "~/kielcdsapp/KIP"
+kip_path = "~/git_code/kiel-cds-app/KIP"
 setShellEnvVar( strcat("KIP_PATH=" kip_path) ) 
 load( strcat(kip_path "/load_kip.il"))
-load("./kielcdsapp/test.il")
-load("./kielcdsapp/pyll/pyllserver.il")
+;load("./kielcdsapp/test.il")
+;load("./kielcdsapp/pyll/pyllserver.il")
 ;loadi(strcat(getShellEnvVar("SKILLDIR") "/menu.il"))
 
 ;CDSGIT CUSTOMIZATION
-cdsgit_path = "~/git_code/cdsgit"
-setShellEnvVar( strcat("CDSGIT_PATH=" cdsgit_path) )
-loadi( strcat(cdsgit_path "/load_cdsgit.il") )
+;cdsgit_path = "~/git_code/cdsgit"
+;setShellEnvVar( strcat("CDSGIT_PATH=" cdsgit_path) )
+;loadi( strcat(cdsgit_path "/load_cdsgit.il") )
 
 
 ;BINDKEYS CUSTOMIZATION

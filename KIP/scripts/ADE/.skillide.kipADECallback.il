@@ -22,17 +22,19 @@ procedure( kipADERun()
     foreach( fileDirList simFileList
         fileDir = car(fileDirList)
         println(fileDir)
-        fileIndex = int(nindex( fileDir "/netlist_en" ))
-        fileDir = substring(fileDir 1 fileIndex-1)
-        println(fileDir)
-        setShellEnvVar("FILEDIR" fileDir)
-        sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
-        sh("~/scripts/spectre_decrypt -i $FILEDIR/netlist_en -o $FILEDIR/netlist_en -key $FILEDIR/kdskey > /dev/null 2>&1")
-        sh("spectre_encrypt -i $FILEDIR/netlist_en -o $FILEDIR/netlist_en_tmp -all -key 2 > /dev/null 2>&1")
-        sh("rm -rf $FILEDIR/netlist_en")
-        sh("mv $FILEDIR/netlist_en_tmp $FILEDIR/netlist_en")
-        unsetShellEnvVar("FILEDIR")    
-    );for each
+		if(nindex( fileDir "/netlist_en" ) != nil then
+			fileIndex = int(nindex( fileDir "/netlist_en" ))
+        		fileDir = substring(fileDir 1 fileIndex-1)
+        		println(fileDir)
+        		setShellEnvVar("FILEDIR" fileDir)
+        		sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
+        		sh("kip dec -i $FILEDIR/netlist_en -o $FILEDIR/netlist_de -key $FILEDIR/kdskey")
+        		sh("spectre_encrypt -i $FILEDIR/netlist_de -o $FILEDIR/netlist_en_tmp -all -key 2")
+        		sh("rm -rf $FILEDIR/netlist_de")
+        		sh("mv $FILEDIR/netlist_en_tmp $FILEDIR/netlist_en")
+        		unsetShellEnvVar("FILEDIR")
+			);end if    
+    );end each
     
     sevRun(sessionName)
  
@@ -48,24 +50,28 @@ procedure( kipADERun()
 
    
 procedure( kipFileMV(session status)
-    println("Hello World!")
-    printf("Session:%L \n Status:%L \n " session status)
+    ;println("Hello World!")
+    ;printf("Session:%L \n Status:%L \n " session status)
     let((sessionObj simFileList)
     sessionObj = asiGetCurrentSession()
     simFileList = asiGetModelLibSelectionList(sessionObj)
     foreach( fileDirList simFileList
         fileDir = car(fileDirList)
-        ;println(fileDir)
-        fileIndex = int(nindex( fileDir "/netlist_en" ))
-        fileDir = substring(fileDir 1 fileIndex-1)
-        ;println(fileDir)
-        setShellEnvVar("FILEDIR" fileDir)
-        sh("rm -rf n$FILEDIR/netlist_en")
-        sh("mv $FILEDIR/netlist_en.bak $FILEDIR/netlist_en")
-        unsetShellEnvVar("FILEDIR") 
-        ) ;for each
-       ) ;for let
-    )
+		if(nindex( fileDir "/netlist_en" ) != nil then
+			fileIndex = int(nindex( fileDir "/netlist_en" ))
+        		fileDir = substring(fileDir 1 fileIndex-1)
+        		println(fileDir)
+        		setShellEnvVar("FILEDIR" fileDir)
+        		sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
+        		sh("kip dec -i $FILEDIR/netlist_en -o $FILEDIR/netlist_de -key $FILEDIR/kdskey")
+        		sh("spectre_encrypt -i $FILEDIR/netlist_de -o $FILEDIR/netlist_en_tmp -all -key 2")
+        		sh("rm -rf $FILEDIR/netlist_de")
+        		sh("mv $FILEDIR/netlist_en_tmp $FILEDIR/netlist_en")
+        		unsetShellEnvVar("FILEDIR")
+			);end if  
+        ) ;end each
+       ) ;end let
+    );end procedure
    
 
 procedure( kipADEStop()
