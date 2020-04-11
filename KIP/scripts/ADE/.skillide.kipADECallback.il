@@ -7,69 +7,75 @@ procedure( kipADENetlistRun()
 )
 
 procedure( kipADERun()
- 
- let( ( sessionName  sessionObj simFileList )
-    sessionName = sevSession(hiGetCurrentWindow())
+ simFileList = asiGetModelLibSelectionList(asiGetCurrentSession()) 
+
+ let( ( sessionName  sessionObj netlistFileList fileDir fileSection )
+    
+	sessionName = sevSession(hiGetCurrentWindow())
     sessionObj = asiGetCurrentSession()
-     
+    ;simFileList = asiGetModelLibSelectionList(sessionObj) 
     asiRegCallBackOnSimComp(sessionObj 'kipFileMV)
-    
-    simFileList = asiGetModelLibSelectionList(sessionObj)
-    ;print(simFileList)
-    ;fileNumber = length(simFileList)
-    ;declare(fileDirArray[fileNumber])
-    
+        
+	netlistFileList = setof( x simFileList (nindex( car(x) "/veriloga.va") == nil))
     foreach( fileDirList simFileList
-        fileDir = car(fileDirList)
-        println(fileDir)
-		if(nindex( fileDir "/netlist_en" ) != nil then
-			fileIndex = int(nindex( fileDir "/netlist_en" ))
-        		fileDir = substring(fileDir 1 fileIndex-1)
-        		println(fileDir)
-        		setShellEnvVar("FILEDIR" fileDir)
-        		sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
-        		sh("kip dec -i $FILEDIR/netlist_en -o $FILEDIR/netlist_de -key $FILEDIR/kdskey")
-        		sh("spectre_encrypt -i $FILEDIR/netlist_de -o $FILEDIR/netlist_en_tmp -all -key 2")
-        		sh("rm -rf $FILEDIR/netlist_de")
-        		sh("mv $FILEDIR/netlist_en_tmp $FILEDIR/netlist_en")
-        		unsetShellEnvVar("FILEDIR")
-			);end if    
+        fileDir = car(fileDirList)	
+        ;println(fileDir)
+  		kipFileDecrypt(fileDir)
     );end each
-    
+	
+	asiRemoveAllModelLibSelection(sessionObj)
+	foreach(	fileDirList netlistFileList
+		fileDir = car(fileDirList)
+		fileSection = cadr(fileDirList)
+		asiAddModelLibSelection( sessionObj fileDir fileSection )
+	)
+	    
     sevRun(sessionName)
- 
-    ;if(simSessionName then
-    ;sh("rm -rf $FILEDIR/netlist_en")
-    ;sh("mv $FILEDIR/netlist_en.bak $FILEDIR/netlist_en" )
-    
-    ;);if
-    
-    ) ;let 
+
+	);let 
 );procedure
 
 
-   
+procedure( dataTrans(list)
+	list = simFileList
+)
+
 procedure( kipFileMV(session status)
-    ;println("Hello World!")
-    ;printf("Session:%L \n Status:%L \n " session status)
-    let((sessionObj simFileList)
+	
+    let((sessionObj fileDir fileSection)
+	;dataTrans(simFilelist)
     sessionObj = asiGetCurrentSession()
-    simFileList = asiGetModelLibSelectionList(sessionObj)
+    ;simFileList = asiGetModelLibSelectionList(sessionObj)
     foreach( fileDirList simFileList
-        fileDir = car(fileDirList)
-		if(nindex( fileDir "/netlist_en" ) != nil then
+        fileDir = car(fileDirList)		
+	    if(nindex( fileDir "/netlist_en" ) != nil then
 			fileIndex = int(nindex( fileDir "/netlist_en" ))
         		fileDir = substring(fileDir 1 fileIndex-1)
         		println(fileDir)
         		setShellEnvVar("FILEDIR" fileDir)
-        		sh("cp $FILEDIR/netlist_en $FILEDIR/netlist_en.bak")
-        		sh("kip dec -i $FILEDIR/netlist_en -o $FILEDIR/netlist_de -key $FILEDIR/kdskey")
-        		sh("spectre_encrypt -i $FILEDIR/netlist_de -o $FILEDIR/netlist_en_tmp -all -key 2")
-        		sh("rm -rf $FILEDIR/netlist_de")
-        		sh("mv $FILEDIR/netlist_en_tmp $FILEDIR/netlist_en")
+        		sh("rm -rf $FILEDIR/netlist_en")
+	        sh("mv $FILEDIR/.netlist_en.bak $FILEDIR/netlist_en")
         		unsetShellEnvVar("FILEDIR")
-			);end if  
+			);end if
+
+	    if(nindex( fileDir "/veriloga.va" ) != nil then
+			fileIndex = int(nindex( fileDir "/veriloga.va" ))
+        		fileDir = substring(fileDir 1 fileIndex-1)
+        		println(fileDir)
+        		setShellEnvVar("FILEDIR" fileDir)
+        		sh("rm -rf $FILEDIR/veriloga.va")
+	        sh("mv $FILEDIR/.veriloga.va.bak $FILEDIR/veriloga.va")
+        		unsetShellEnvVar("FILEDIR")
+			);end if
+  
         ) ;end each
+	;asiLoadState(sessionObj ?option 'cellview)
+	asiRemoveAllModelLibSelection(sessionObj)
+	foreach(	fileDirList simFileList
+		fileDir = car(fileDirList)
+		fileSection = cadr(fileDirList)
+		asiAddModelLibSelection( sessionObj fileDir fileSection )
+			);end each
        ) ;end let
     );end procedure
    
