@@ -42,7 +42,7 @@ procedure(kipNetlistEncrypt( lib cell view )
 ;Generate Netlist       
        sevStartSession(?design nil ?lib lib ?cell cvNewName ?view "schematic")
        sessionId = asiGetCurrentSession()
-       asiNetlist(sessionId)
+       asiNetlistMixed(sessionId)
 ;Delete Toplogy Schematic
        ddDeleteObj(encryptCVSchID)
 ;Encrypt Netlist
