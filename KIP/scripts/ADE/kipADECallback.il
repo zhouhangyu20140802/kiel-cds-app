@@ -76,6 +76,7 @@ procedure( kipFileMV(session status)
 		fileSection = cadr(fileDirList)
 		asiAddModelLibSelection( sessionObj fileDir fileSection )
 			);end each
+ 	asiUnRegCallBackOnSimComp(sessionObj 'kipFileMV)
        ) ;end let
     );end procedure
    
