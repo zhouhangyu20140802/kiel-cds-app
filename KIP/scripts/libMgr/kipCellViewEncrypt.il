@@ -4,9 +4,14 @@ procedure( kipCellViewEncrypt( lib cell view )
 	if(( view == "verilog" || view == "veriloga") then
        kipVerilogEncrypt( lib cell view)
 	)
-;Encrypt Netlist
-	if(( view == "schematic" || view == "layout" || view == "maskLayout") then
+;Encrypt Schematic Netlist
+	if(( view == "schematic" ) then
        kipNetlistEncrypt( lib cell view)
+	)
+
+;Encrypt QRC Netlist
+	if(( view == "config" ) then 
+		kipQRCEncrypt( lib cell view)
 	)
 
 );end procedure

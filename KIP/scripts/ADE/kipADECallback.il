@@ -109,6 +109,10 @@ procedure( kipADENetlistRecreate()
     ) 
 )
 
+procedure( kipADENetlistEncryptCreate()
+   kipADEEncrypt()
+)
+
 
 
 
