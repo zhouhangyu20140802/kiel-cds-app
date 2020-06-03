@@ -18,9 +18,10 @@ procedure( kipADERun()
         
 	netlistFileList = setof( x simFileList (nindex( car(x) "/veriloga.va") == nil))
     foreach( fileDirList simFileList
-        fileDir = car(fileDirList)	
-        ;println(fileDir)
-  		kipFileDecrypt(fileDir)
+        fileDir = car(fileDirList)
+        
+  		kipFileDecrypt(fileDir)                  
+        
     );end each
 	
 	asiRemoveAllModelLibSelection(sessionObj)
@@ -28,9 +29,12 @@ procedure( kipADERun()
 		fileDir = car(fileDirList)
 		fileSection = cadr(fileDirList)
 		asiAddModelLibSelection( sessionObj fileDir fileSection )
+
 	)
 	    
     sevRun(sessionName)
+    
+
 
 	);let 
 );procedure
